@@ -6,5 +6,5 @@
 int printf_per(void)
 {
 	_putchar('%');
-	return (1);
+	return (0);
 }
