@@ -21,7 +21,7 @@ typedef struct format
 {
 	char *id;
 	int (*f)();
-} mat;
+} codex;
 
 int _putchar(char c);
 int _printf(const char *format, ...);
