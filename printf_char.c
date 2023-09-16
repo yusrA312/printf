@@ -7,7 +7,7 @@
  */
 int printf_char(va_list va)
 {
-	va_start (va,*format);
+	va_start (va,format);
 	char j;
 
 	j = va_arg(val, int);
