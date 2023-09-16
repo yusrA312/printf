@@ -7,7 +7,7 @@
  * @format: format (char, string, int, decimal)
  * Return: NULL or function associated ;
  */
-/**int (*find_function(const char *format))(va_list)
+int (*find_function(const char *format))(va_list)
 {
 	unsigned int x = 0;
 	codex find_codex[] = {
@@ -23,13 +23,13 @@
 		x++;
 	}
 	return (NULL);
-}*/
+}
 /**
  * _printf - function that produces output according to a format.
  * @format: format (char, string, int, decimal)
  * Return: size the output text;
  */
-/**int _printf(const char *format, ...)
+int _printf(const char *format, ...)
 {
 	va_list p;
 	int (*f)(va_list);
@@ -66,20 +66,4 @@
 	}
 	va_end(p);
 	return (cpr);
-}*/
-va_list args;
-    va_start(args, format);
-
-    int count = 0;
-    while (*format != '\0')
-    {
-        if (*format == '%')
-        {
-            format++;
-
-            // Handle %c specifier
-            if (*format == 'c')
-            {
-                int c = va_arg(args, int);
-                putchar(c);
-                count++
+}
