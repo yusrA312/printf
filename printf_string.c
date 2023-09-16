@@ -1,16 +1,16 @@
 #include "main.h"
 /**
  * printf_string - print a string.
- * @va: argumen t.
+ * @v: argumen t.
  * Return: the length of the string.
  */
 
-int printf_string(va_list va)
+int printf_string(va_list v)
 {
 	char *s;
 	int x, len;
 
-	s = va_arg(va, char *);
+	s = va_arg(v, char *);
 	if (s == NULL)
 	{
 		s = "(null)";
