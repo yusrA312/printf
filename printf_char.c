@@ -9,8 +9,12 @@ int printf_char(va_list v)
 {
 	char j;
 
+	va_start(v, format);
+
 	j = va_arg(v, int);
+	va_end(v);
+
 	_putchar(j);
 
-	return (0);
+	return (1);
 }
