@@ -13,7 +13,9 @@ int (*find_function(const char *format))(va_list)
 	codex find_codex[] = {
 		{"c", print_char},
 		{"s", print_string},
-		{"%", print_per}
+		{"%", print_per},
+		{"d", print_dec},
+		{"i", print_int}
 	};
 
 	while (find_codex[x].sc)
