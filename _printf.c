@@ -1,90 +1,66 @@
-"main.h"
+#include "main.h"
 
+void print_buffer(char buffers[], int *buff);
 
-int _printf(const char *format, ...) {
-	va_list args;
-	va_start(args, format);
+/**
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
+ */
+int _printf(const char *format, ...)
+{
+	int i, printed = 0, chars = 0;
+	int flags, width, precision, size, buff = 0;
+	va_list list;
+	char buffers[BUFF_SIZE];
 
-	int chars_printed = 0;
+	if (format == NULL)
+		return (-1);
 
-	while (*format) {
-		if (*format != '%') {
-			write(1, format, 1);
-			chars_printed++;
-		} else {
-			format++; // Move past '%'
-			int left_justified = 0;
-			int zero_padding = 0;
+	va_start(list, format);
 
-			// Check for flags
-			while (*format == '-' || *format == '0') {
-				if (*format == '-') {
-					left_justified = 1;
-				} else if (*format == '0') {
-					zero_padding = 1;
-				}
-				format++;
-			}
-
-			// Check for width
-			int width = 0;
-			while (*format >= '0' && *format <= '9') {
-				width = width * 10 + (*format - '0');
-				format++;
-			}
-
-			// Handle format specifiers
-			if (*format == 'd') {
-				int num = va_arg(args, int);
-				if (left_justified) {
-					// Print the number left-justified with zero-padding if specified
-					int printed = 0;
-					if (num < 0) {
-						write(1, "-", 1);
-						num = -num;
-						printed++;
-					}
-					while (printed < width - count_digits(num)) {
-						write(1, zero_padding ? "0" : " ", 1);
-						printed++;
-					}
-					char num_char = num + '0';
-					write(1, &num_char, 1);
-				} else {
-					// Print the number right-justified with zero-padding if specified
-					int printed = 0;
-					while (printed < width - count_digits(num)) {
-						write(1, zero_padding ? "0" : " ", 1);
-						printed++;
-					}
-					char num_char = num + '0';
-					write(1, &num_char, 1);
-				}
-			} else if (*format == 's') {
-				char *str = va_arg(args, char *);
-				write(1, str, strlen(str));
-			} else if (*format == 'c') {
-				char c = va_arg(args, int); // Characters are promoted to int in va_arg
-				write(1, &c, 1);
-			} else {
-				// Unsupported format specifier, just print it
-				// write(1, "%", 1);
-				write(1, format, 1);
-				chars_printed += 2;
-			}
+	for (i = 0; format && format[i] != '\0'; i++)
+	{
+		if (format[i] != '%')
+		{
+			buffers[buff++] = format[i];
+			if (buff == BUFF_SIZE)
+				print_buffer(buffers, &buff);
+			/* write(1, &format[i], 1);*/
+			chars++;
 		}
-		format++;
+		else
+		{
+			print_buffer(buffers, &buff);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			chars += printed;
+		}
 	}
 
-	va_end(args);
-	return chars_printed;
+	print_buffer(buffers, &buff);
+
+	va_end(list);
+
+	return (chars);
 }
 
-int count_digits(int num) {
-	int count = 0;
-	while (num != 0) {
-		num /= 10;
-		count++;
-	}
-	return count;
+/**
+ * print_buffer - Prints the contents of the buffers if it exist
+ * @buffers: Array of chars
+ * @buff: Index at which to add next char, represents the length.
+ */
+void print_buffer(char buffers[], int *buff)
+{
+	if (*buff > 0)
+		write(1, &buffers[0], *buff);
+
+	*buff = 0;
 }
