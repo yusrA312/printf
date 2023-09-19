@@ -2,7 +2,7 @@
 
 
 
-void print_buffer(char buff[], int *ind);
+void print_buffer(char buf[], int *ind);
 
 
 
@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
 
 	va_list list;
 
-	char buff[BUFF_SIZE];
+	char buf[BUFF_SIZE];
 
 
 
@@ -44,11 +44,11 @@ int _printf(const char *format, ...)
 
 		{
 
-			buff[ind++] = format[i];
+			buf[ind++] = format[i];
 
 			if (ind == BUFF_SIZE)
 
-				print_buffer(buff, &ind);
+				print_buffer(buf, &ind);
 
 			/* write(1, &format[i], 1);*/
 
@@ -60,7 +60,7 @@ int _printf(const char *format, ...)
 
 		{
 
-			print_buffer(buff, &ind);
+			print_buffer(buf, &ind);
 
 			flags = get_flags(format, &i);
 
@@ -88,7 +88,7 @@ int _printf(const char *format, ...)
 
 
 
-	print_buffer(buff, &ind);
+	print_buffer(buf, &ind);
 
 
 
@@ -106,12 +106,12 @@ int _printf(const char *format, ...)
 * print_buffer - Prints the contents of the buffer if it exist
  * @ind: Index at which to add next char, represents the length.
  */
-void print_buffer(char buff[], int *ind)
+void print_buffer(char buf[], int *ind)
 {
 
 	if (*ind > 0)
 
-		write(1, &buff[0], *ind);
+		write(1, &buf[0], *ind);
 
 
 
